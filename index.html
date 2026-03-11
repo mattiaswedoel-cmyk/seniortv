@@ -14,21 +14,21 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh; /* Ändrat från height till min-height */
+            min-height: 100vh;
             margin: 0;
             overflow: hidden;
-            padding: 20px; /* Lite luft runt kanten */
+            padding: 20px;
             box-sizing: border-box;
         }
 
-        /* Klockan - Lite mer kompakt */
+        /* Klockan */
         #clock-container {
             text-align: center;
             margin-bottom: 20px;
         }
 
         #clock {
-            font-size: 4rem; /* Något mindre än förut */
+            font-size: 4rem;
             font-weight: 200;
             margin: 0;
             line-height: 1;
@@ -41,48 +41,54 @@
             text-transform: capitalize;
         }
 
-        /* Meny-behållare - Mer kompakt gap */
+        /* Meny-behållare */
         .menu-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr); 
-            gap: 15px; /* Mindre mellanrum */
+            gap: 15px;
             width: 95%;
             max-width: 850px;
         }
 
-        /* Knapparnas utseende - Mindre padding och text */
+        /* Knapparnas utseende */
         .menu-item {
             background-color: #1f1f1f;
-            color: white;
+            color: #bbbbbb; /* Lite dimmad text när den inte är vald */
             text-decoration: none;
-            padding: 25px 15px; /* Mindre padding för att spara plats */
+            padding: 25px 15px;
             text-align: center;
             border-radius: 15px;
-            font-size: 1.3rem; /* Mindre textstorlek */
-            border: 3px solid transparent;
-            transition: all 0.2s ease;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+            font-size: 1.3rem;
+            border: 4px solid transparent; /* Ramen är osynlig från början */
+            transition: all 0.25s ease-out; /* Mjukare övergång */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            outline: none;
         }
 
-        /* Den sista knappen (Kunskapskanalen) sträcker sig över båda kolumnerna */
+        /* HIGHLIGHT-EFFEKT: När rutan är i fokus eller hovras över */
+        .menu-item:focus, .menu-item:hover {
+            background-color: #333333; /* Ljusare grå */
+            color: #ffffff; /* Kritvit text */
+            border-color: #ffffff; /* Vit ram (väldigt tydligt på TV) */
+            transform: scale(1.1); /* Knappen blir 10% större */
+            box-shadow: 0 0 35px rgba(255, 255, 255, 0.3); /* Vit glöd runt knappen */
+            z-index: 10; /* Hamnar "överst" */
+        }
+
         .menu-item:last-child:nth-child(odd) {
             grid-column: span 2;
         }
 
-        /* Fokus-effekt */
-        .menu-item:focus, .menu-item:hover {
-            background-color: #2a2a2a;
-            border-color: #4285f4; 
-            transform: scale(1.03); /* Mindre hopp vid fokus */
-            outline: none;
-            box-shadow: 0 0 20px rgba(66, 133, 244, 0.4);
+        .icon { 
+            font-size: 2.2rem; 
+            display: block; 
+            margin-bottom: 8px;
+            transition: transform 0.2s ease;
         }
 
-        /* Ikonen - Något mindre */
-        .icon { 
-            font-size: 2rem; 
-            display: block; 
-            margin-bottom: 8px; 
+        /* Gör så att ikonen hoppar till lite extra vid markering */
+        .menu-item:focus .icon, .menu-item:hover .icon {
+            transform: translateY(-5px);
         }
 
         ::-webkit-scrollbar { display: none; }
