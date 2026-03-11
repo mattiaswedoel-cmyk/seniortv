@@ -3,65 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TV Meny</title>
+    <title>Min TV-Meny</title>
     <style>
         body {
-            background-color: #000;
-            color: #fff;
-            font-family: sans-serif;
+            background-color: #121212;
+            color: white;
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
             margin: 0;
-            cursor: crosshair; /* Gör pekaren tydligare */
+            overflow: hidden;
+            padding: 20px;
+            box-sizing: border-box;
+            /* GÖR PEKAREN TILL ETT STORT KORS FÖR BÄTTRE SYNLIGHET */
+            cursor: crosshair;
         }
 
-        #clock { font-size: 4rem; margin-bottom: 20px; }
+        #clock-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #clock {
+            font-size: 4rem;
+            font-weight: 200;
+            margin: 0;
+            line-height: 1;
+        }
+
+        #date {
+            font-size: 1.2rem;
+            color: #888;
+            margin-top: 5px;
+            text-transform: capitalize;
+        }
 
         .menu-container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            width: 90%;
-            max-width: 800px;
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 15px;
+            width: 95%;
+            max-width: 850px;
         }
 
         .menu-item {
-            background-color: #222;
-            color: #fff;
+            background-color: #1f1f1f;
+            color: white;
             text-decoration: none;
-            padding: 30px;
+            padding: 25px 15px;
             text-align: center;
             border-radius: 15px;
-            font-size: 1.5rem;
-            border: 6px solid #444; 
-            transition: all 0.1s;
+            font-size: 1.3rem;
+            border: none;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
             outline: none;
-            display: block;
-            position: relative;
+            /* SÄKERSTÄLLER ATT PEKAREN SYNS SOM EN HAND ÖVER KNAPPARNA */
+            cursor: pointer;
         }
 
-        /* Denna kod triggar på ALLA sätt en TV kan tänkas känna av en pekare */
-        .menu-item:hover, 
-        .menu-item:focus,
-        .menu-item:active {
-            background-color: #fff !important; /* Vit bakgrund för max synlighet */
-            color: #000 !important; /* Svart text */
-            border-color: #00ff00 !important; /* GRÖN RAM för att se om detta funkar */
-            transform: scale(1.1);
-            box-shadow: 0 0 50px #fff;
-            z-index: 100;
+        .menu-item:focus, .menu-item:hover {
+            background-color: #2a2a2a;
         }
 
-        .menu-item:last-child:nth-child(odd) { grid-column: span 2; }
-        .icon { font-size: 2.5rem; display: block; pointer-events: none; }
+        .menu-item:last-child:nth-child(odd) {
+            grid-column: span 2;
+        }
+
+        .icon { 
+            font-size: 2rem; 
+            display: block; 
+            margin-bottom: 8px; 
+        }
+
+        ::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body>
 
-    <div id="clock">00:00</div>
+    <div id="clock-container">
+        <div id="clock">00:00</div>
+        <div id="date">Laddar...</div>
+    </div>
 
     <div class="menu-container">
         <a href="https://www.svtplay.se/kanaler/svt1?start=auto" class="menu-item">
@@ -82,20 +107,19 @@
     </div>
 
     <script>
-        function update() {
-            const n = new Date();
-            document.getElementById('clock').innerText = n.getHours().toString().padStart(2,'0') + ":" + n.getMinutes().toString().padStart(2,'0');
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('clock').textContent = `${hours}:${minutes}`;
+            
+            const options = { weekday: 'long', day: 'numeric', month: 'long' };
+            document.getElementById('date').textContent = now.toLocaleDateString('sv-SE', options);
         }
-        setInterval(update, 1000);
-        update();
 
-        // Tvinga fokus på det pekaren nuddar - med en "try-catch" för att inte krascha
-        document.addEventListener('mousemove', function(e) {
-            var el = document.elementFromPoint(e.clientX, e.clientY);
-            if (el && el.classList.contains('menu-item')) {
-                el.focus();
-            }
-        });
+        setInterval(updateClock, 1000);
+        updateClock();
     </script>
+
 </body>
 </html>
