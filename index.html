@@ -35,20 +35,20 @@
             text-align: center;
             border-radius: 15px;
             font-size: 1.5rem;
-            /* Grundramen är mörk så den inte syns */
             border: 6px solid #222; 
             transition: all 0.1s;
             outline: none;
+            display: block;
         }
 
-        /* HÄR ÄR DEN TYDLIGA MARKERINGEN */
+        /* Denna stil körs när knappen är vald eller hovrad */
         .menu-item:hover, 
         .menu-item:focus,
-        .active-tv {
+        .is-active {
             background-color: #444 !important;
-            border-color: #ffcc00 !important; /* STARK GUL RAM */
+            border-color: #ff0000 !important; /* RÖD RAM FÖR ATT TESTA PEKAREN */
             transform: scale(1.1) !important;
-            box-shadow: 0 0 40px rgba(255, 204, 0, 0.6) !important;
+            box-shadow: 0 0 40px rgba(255, 0, 0, 0.6) !important;
         }
 
         .menu-item:last-child:nth-child(odd) { grid-column: span 2; }
@@ -86,12 +86,23 @@
         setInterval(update, 1000);
         update();
 
-        // Tvinga highlight när man rör musen (för TV-apparater som är sega)
+        // FIX FÖR PEKARE/MUS:
         const items = document.querySelectorAll('.menu-item');
+        
         items.forEach(item => {
-            item.addEventListener('mouseenter', () => item.focus());
+            // När musen/pekaren nuddar rutan
+            item.addEventListener('mouseover', () => {
+                item.focus(); 
+                item.classList.add('is-active');
+            });
+            
+            // När musen/pekaren lämnar rutan
+            item.addEventListener('mouseleave', () => {
+                item.classList.remove('is-active');
+            });
         });
 
+        // Sätt fokus på första vid start
         window.onload = () => items[0].focus();
     </script>
 </body>
