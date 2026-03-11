@@ -18,8 +18,7 @@
             overflow: hidden;
             padding: 20px;
             box-sizing: border-box;
-            /* GÖR PEKAREN TILL ETT STORT KORS FÖR BÄTTRE SYNLIGHET */
-            cursor: crosshair;
+            cursor: crosshair; /* Tydlig pekare för LG-TV */
         }
 
         #clock-container {
@@ -60,7 +59,6 @@
             border: none;
             box-shadow: 0 8px 15px rgba(0,0,0,0.3);
             outline: none;
-            /* SÄKERSTÄLLER ATT PEKAREN SYNS SOM EN HAND ÖVER KNAPPARNA */
             cursor: pointer;
         }
 
@@ -68,6 +66,7 @@
             background-color: #2a2a2a;
         }
 
+        /* Gör sista knappen (Kunskapskanalen) bredare */
         .menu-item:last-child:nth-child(odd) {
             grid-column: span 2;
         }
@@ -90,9 +89,9 @@
 
     <div class="menu-container">
         <a href="https://www.svtplay.se/kanaler/svt1?start=auto" class="menu-item">
-            <span class="icon">📺</span> SVT kanaler
+            <span class="icon">📺</span> SVT 1
         </a>
-        <a href="https://www.svtplay.se/kanaler" class="menu-item">
+        <a href="https://www.svtplay.se/kanaler/svt2?start=auto" class="menu-item">
             <span class="icon">📺</span> SVT 2
         </a>
         <a href="https://www.svtplay.se/hundra-procent-bonde" class="menu-item">
