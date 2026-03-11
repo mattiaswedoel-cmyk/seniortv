@@ -15,6 +15,7 @@
             justify-content: center;
             min-height: 100vh;
             margin: 0;
+            cursor: crosshair; /* Gör pekaren tydligare */
         }
 
         #clock { font-size: 4rem; margin-bottom: 20px; }
@@ -35,24 +36,27 @@
             text-align: center;
             border-radius: 15px;
             font-size: 1.5rem;
-            border: 6px solid #222; 
+            border: 6px solid #444; 
             transition: all 0.1s;
             outline: none;
             display: block;
+            position: relative;
         }
 
-        /* Denna stil körs när knappen är vald eller hovrad */
+        /* Denna kod triggar på ALLA sätt en TV kan tänkas känna av en pekare */
         .menu-item:hover, 
         .menu-item:focus,
-        .is-active {
-            background-color: #444 !important;
-            border-color: #ff0000 !important; /* RÖD RAM FÖR ATT TESTA PEKAREN */
-            transform: scale(1.1) !important;
-            box-shadow: 0 0 40px rgba(255, 0, 0, 0.6) !important;
+        .menu-item:active {
+            background-color: #fff !important; /* Vit bakgrund för max synlighet */
+            color: #000 !important; /* Svart text */
+            border-color: #00ff00 !important; /* GRÖN RAM för att se om detta funkar */
+            transform: scale(1.1);
+            box-shadow: 0 0 50px #fff;
+            z-index: 100;
         }
 
         .menu-item:last-child:nth-child(odd) { grid-column: span 2; }
-        .icon { font-size: 2.5rem; display: block; }
+        .icon { font-size: 2.5rem; display: block; pointer-events: none; }
     </style>
 </head>
 <body>
@@ -78,7 +82,6 @@
     </div>
 
     <script>
-        // Klocka
         function update() {
             const n = new Date();
             document.getElementById('clock').innerText = n.getHours().toString().padStart(2,'0') + ":" + n.getMinutes().toString().padStart(2,'0');
@@ -86,24 +89,13 @@
         setInterval(update, 1000);
         update();
 
-        // FIX FÖR PEKARE/MUS:
-        const items = document.querySelectorAll('.menu-item');
-        
-        items.forEach(item => {
-            // När musen/pekaren nuddar rutan
-            item.addEventListener('mouseover', () => {
-                item.focus(); 
-                item.classList.add('is-active');
-            });
-            
-            // När musen/pekaren lämnar rutan
-            item.addEventListener('mouseleave', () => {
-                item.classList.remove('is-active');
-            });
+        // Tvinga fokus på det pekaren nuddar - med en "try-catch" för att inte krascha
+        document.addEventListener('mousemove', function(e) {
+            var el = document.elementFromPoint(e.clientX, e.clientY);
+            if (el && el.classList.contains('menu-item')) {
+                el.focus();
+            }
         });
-
-        // Sätt fokus på första vid start
-        window.onload = () => items[0].focus();
     </script>
 </body>
 </html>
