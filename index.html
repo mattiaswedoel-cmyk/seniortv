@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Min TV-Meny</title>
     <style>
-        /* Bakgrund och layout */
         body {
-            background-color: #121212;
+            background-color: #000000;
             color: white;
-            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -17,81 +16,51 @@
             min-height: 100vh;
             margin: 0;
             overflow: hidden;
-            padding: 20px;
-            box-sizing: border-box;
         }
 
-        /* Klockan */
-        #clock-container {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+        #clock-container { text-align: center; margin-bottom: 20px; }
+        #clock { font-size: 4rem; font-weight: 200; margin: 0; }
+        #date { font-size: 1.2rem; color: #888; text-transform: capitalize; }
 
-        #clock {
-            font-size: 4rem;
-            font-weight: 200;
-            margin: 0;
-            line-height: 1;
-        }
-
-        #date {
-            font-size: 1.2rem;
-            color: #888;
-            margin-top: 5px;
-            text-transform: capitalize;
-        }
-
-        /* Meny-behållare */
         .menu-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr); 
             gap: 15px;
-            width: 95%;
-            max-width: 850px;
+            width: 90%;
+            max-width: 800px;
         }
 
-        /* Knapparnas utseende */
         .menu-item {
-            background-color: #1f1f1f;
-            color: #bbbbbb; /* Lite dimmad text när den inte är vald */
+            background-color: #1a1a1a;
+            color: #888888;
             text-decoration: none;
-            padding: 25px 15px;
+            padding: 25px 10px;
             text-align: center;
             border-radius: 15px;
             font-size: 1.3rem;
-            border: 4px solid transparent; /* Ramen är osynlig från början */
-            transition: all 0.25s ease-out; /* Mjukare övergång */
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            outline: none;
+            border: 4px solid transparent; 
+            transition: all 0.15s ease-in-out;
+            outline: none; /* Tar bort webbläsarens egen fula ram */
+            display: block;
         }
 
-        /* HIGHLIGHT-EFFEKT: När rutan är i fokus eller hovras över */
-        .menu-item:focus, .menu-item:hover {
-            background-color: #333333; /* Ljusare grå */
-            color: #ffffff; /* Kritvit text */
-            border-color: #ffffff; /* Vit ram (väldigt tydligt på TV) */
-            transform: scale(1.1); /* Knappen blir 10% större */
-            box-shadow: 0 0 35px rgba(255, 255, 255, 0.3); /* Vit glöd runt knappen */
-            z-index: 10; /* Hamnar "överst" */
+        /* HÄR ÄR HIGHLIGHTEN:
+           Gäller både när du håller musen över (hover) 
+           OCH när du stegar med fjärrkontrollen (focus)
+        */
+        .menu-item:hover, 
+        .menu-item:focus {
+            background-color: #333333 !important;
+            color: #ffffff !important;
+            border-color: #ffffff !important; /* Vit ram runt den valda rutan */
+            transform: scale(1.1) !important; /* Rutan blir större */
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.4) !important; /* Ljusglöd */
+            cursor: pointer;
         }
 
-        .menu-item:last-child:nth-child(odd) {
-            grid-column: span 2;
-        }
+        .menu-item:last-child:nth-child(odd) { grid-column: span 2; }
+        .icon { font-size: 2.5rem; display: block; margin-bottom: 5px; }
 
-        .icon { 
-            font-size: 2.2rem; 
-            display: block; 
-            margin-bottom: 8px;
-            transition: transform 0.2s ease;
-        }
-
-        /* Gör så att ikonen hoppar till lite extra vid markering */
-        .menu-item:focus .icon, .menu-item:hover .icon {
-            transform: translateY(-5px);
-        }
-
-        ::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body>
@@ -122,22 +91,20 @@
     <script>
         function updateClock() {
             const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            document.getElementById('clock').textContent = `${hours}:${minutes}`;
-            
-            const options = { weekday: 'long', day: 'numeric', month: 'long' };
-            document.getElementById('date').textContent = now.toLocaleDateString('sv-SE', options);
+            const h = String(now.getHours()).padStart(2, '0');
+            const m = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('clock').textContent = h + ":" + m;
+            const opt = { weekday: 'long', day: 'numeric', month: 'long' };
+            document.getElementById('date').textContent = now.toLocaleDateString('sv-SE', opt);
         }
-
         setInterval(updateClock, 1000);
         updateClock();
 
-        window.onload = () => {
-            const firstButton = document.querySelector('.menu-item');
-            if (firstButton) firstButton.focus();
+        // Viktigt: Sätter fokus på första knappen direkt så TV:n vet var den är
+        window.onload = () => { 
+            const first = document.querySelector('.menu-item');
+            if(first) first.focus(); 
         };
     </script>
-
 </body>
 </html>
