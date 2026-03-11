@@ -49,11 +49,16 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
 
-        /* Fokus-effekt (för både mus och fjärrkontroll) */
+        /* Om det är ett udda antal knappar blir den sista knappen bredare */
+        .menu-item:last-child:nth-child(odd) {
+            grid-column: span 2;
+        }
+
+        /* Fokus-effekt */
         .menu-item:focus, .menu-item:hover {
             background-color: #2a2a2a;
             border-color: #4285f4; 
-            transform: scale(1.08);
+            transform: scale(1.05);
             outline: none;
             box-shadow: 0 0 30px rgba(66, 133, 244, 0.4);
         }
@@ -64,7 +69,6 @@
             margin-bottom: 15px; 
         }
 
-        /* Gömmer scrollbars */
         ::-webkit-scrollbar { display: none; }
     </style>
 </head>
@@ -85,10 +89,12 @@
         <a href="https://www.svt.se/nyheter/" class="menu-item">
             <span class="icon">📰</span> SVT Nyheter
         </a>
+        <a href="https://www.svtplay.se/kanaler/kunskapskanalen?start=auto" class="menu-item">
+            <span class="icon">🎓</span> Kunskapskanalen
+        </a>
     </div>
 
     <script>
-        // Sätter fokus på första knappen direkt
         window.onload = () => {
             const firstButton = document.querySelector('.menu-item');
             if (firstButton) firstButton.focus();
